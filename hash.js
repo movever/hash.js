@@ -91,8 +91,19 @@
     }
   };
 
-  if (typeof module !== "undefined") {
-    module.exports = hash;
-  }
+  // Node and other CommonJS-like environments that support module.exports.
+    if ( typeof module !== 'undefined' && module.exports ) {
+        module.exports = hash
+
+    //AMD.
+    } else if ( typeof define == 'function' && define.amd ) {
+        define( function () {
+            return hash
+        })
+
+    //Browser.
+    } else {
+        window['hash'] = hash
+    }
 
 })(window);
